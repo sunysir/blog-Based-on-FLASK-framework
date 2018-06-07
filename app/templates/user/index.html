@@ -1,0 +1,26 @@
+{% extends "common/base.html" %}
+{% from "common/macro.html" import show_pagination %}
+{% block page_content -%}
+    {{ wtf.quick_form(form) }}
+    {% for post in posts %}
+        <hr>
+        <div class="media">
+            <div class="media-left">
+                <a href="#">
+                    <img class="media-object" src="{{ url_for('static',filename="img/"+post.user.head_picture) }}"style="width: 60px;height: 60px" alt="...">
+                </a>
+            </div>
+            <div class="media-body">
+                <div style="float: right">{{ moment(post.timestamp).fromNow() }}</div>
+                <h4 class="media-heading">{{ post.user.username }}</h4>
+                {{ post.content }}
+            </div>
+        </div>
+    {% endfor %}
+    {{ show_pagination(pagination, 'main.index') }}
+{% endblock page_content %}
+{% block scripts %}
+    {{ super() }}
+    {{ moment.include_moment() }}
+    {{ moment.locale('zh_CN') }}
+{%- endblock scripts %}
